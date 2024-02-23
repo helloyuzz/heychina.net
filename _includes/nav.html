@@ -5,7 +5,7 @@
   Includes:
     sorted_pages.html
   Overwrites:
-    nav_pages, first_level_pages, second_level_pages, third_level_pages,
+    nav_pages, level1_pages, level2_pages, level3_pages,
     node, children_list, child, grand_children_list, grand_child.
 {%- endcomment -%}
 
@@ -15,20 +15,22 @@
 
 {%- include sorted_pages.html pages = nav_pages -%}
 
-{%- assign first_level_pages = sorted_pages
-    | where_exp: "item", "item.parent == nil" -%}
-{%- assign second_level_pages = sorted_pages
-    | where_exp: "item", "item.parent != nil"
-    | where_exp: "item", "item.grand_parent == nil" -%}
-{%- assign third_level_pages = sorted_pages
-    | where_exp: "item", "item.grand_parent != nil" -%}
+{%- assign level1_pages = sorted_pages | where_exp: "item", "item.level == 1" -%}
+{%- assign level2_pages = sorted_pages | where_exp: "item", "item.level ==2" -%}
+{%- assign level3_pages = sorted_pages | where_exp: "item", "item.level == 3" -%}
+{%- assign level4_pages = sorted_pages | where_exp: "item", "item.level == 4" -%}
+
+
 
 {%- comment -%}
   The order of sibling pages in `sorted_pages` determines the order of display of
   links to them in lists of navigation links.
+
   Note that Liquid evaluates conditions from right to left (and it does not allow
   the use of parentheses). Some conditions are not so easy to express clearly...
+
   For example, consider the following condition:
+
     C: page.collection = = include.key and
        page.url = = node.url or
        page.grand_parent = = node.title or
@@ -49,67 +51,79 @@
   generating the nav links for a collection that includes `page`, AND `...` holds.
 {%- endcomment -%}
 
-
-<!-- {% for item in site.pages %}
-<br><br>
-<label>{{ item.name }} - {{ page.dir }}- {{ item.url}}aa</label>
-{% endfor %} -->
-
-
-{% for item in site.pages %}
-  {% assign key = item.dir | slice: 0,5 %}
-  {%  if key != "/docs" %}
-  {%    continue %}
-  {%  endif %}
-  {{ item.dir | url_decode  }} {{ item.name }}<br><br>
-{% endfor %}
-
 <ul class="nav-list">
-{%- for node in first_level_pages -%}
-    {%- unless node.nav_exclude -%}
-    {% if node.title == 'Home' %}
+{%- for node1 in level1_pages -%}
+    {%- unless node1.nav_exclude -%}
+    {% if node1.title == 'Home' %}
       {% continue %}
     {% endif %}
-      <li class="nav-list-item  {% if page.collection == include.key and page.url == node.url or page.grand_parent == node.title or page.parent == node.title and page.grand_parent == nil %} active{% endif %}">
-        {%- if node.has_children -%}
-        <button class="nav-list-expander btn-reset" aria-label="toggle items in {{ node.title }} category" aria-pressed="{% if page.collection == include.key and page.url == node.url or page.grand_parent == node.title or page.parent == node.title and page.grand_parent == nil %}true{% else %}false{% endif %}">
+      <li class="nav-list-item {% if page.collection == include.key and page.url == node1.url or page.grand_parent == node1.title or page.parent == node1.title and page.grand_parent == nil %} active{% endif %}">
+        {%- if node1.has_children -%}
+        <button class="nav-list-expander btn-reset" aria-label="toggle items in {{ node1.title }} category" aria-pressed="{% if page.collection == include.key and page.url == node1.url or page.grand_parent == node1.title or page.parent == node1.title and page.grand_parent == nil %}true{% else %}false{% endif %}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
         </button>
         {%- endif -%}
-        <a href="{{ node.url | relative_url }}" class="nav-list-link{% if page.url == node.url %} active{% endif %} fw-bold">{{ node.name }}</a>
-        {%- if node.has_children -%}
-          {%- assign children_list = second_level_pages
-                | where: "parent", node.title -%}
-          {%- if node.child_nav_order == 'desc' or node.child_nav_order == 'reversed' -%}
+        <a href="{{ node1.url | relative_url }}" class="nav-list-link{% if page.url == node1.url %} active fw-bold{% endif %}">{{ node1.title }}</a>
+        {%- if node1.has_children -%}
+          {%- assign children_list = level2_pages
+                | where: "parent", node1.title -%}
+          {%- if node1.child_nav_order == 'desc' or node1.child_nav_order == 'reversed' -%}
             {%- assign children_list = children_list | reverse -%}
           {%- endif -%}
+
           <ul class="nav-list">
           {%- for child in children_list -%}
             {%- unless child.nav_exclude -%}
-            <li class="nav-list-item  {% if page.url == child.url or page.parent == child.title %} active{% endif %}">
+            <li class="nav-list-item {% if page.url == child.url or page.parent == child.title %} active{% endif %}">
               {%- if child.has_children -%}
                 <button class="nav-list-expander btn-reset" aria-label="toggle items in {{ child.title }} category" aria-pressed="{% if page.url == child.url or page.parent == child.title %}true{% else %}false{% endif %}">
                   <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
                 </button>
               {%- endif -%}
-              <a href="{{ child.url | relative_url }}" class="nav-list-link{% if page.url == child.url %} active{% endif %}"><span style="color:#260b93">{{ child.nav_order}}.{{ child.name }}</span> {% if child.subtitle %}- <span>{{ child.subtitle }}</span>{% endif %}</a>
+              <a href="{{ child.url | relative_url }}" class="nav-list-link{% if page.url == child.url %} active fw-bold{% endif %}"><span style="color:#260b93">{{ child.title }}</span> {% if child.subtitle %}- <span>{{ child.subtitle }}</span>{% endif %}</a>
+              
               {%- if child.has_children -%}
-                {%- assign grand_children_list = third_level_pages
-                      | where: "parent", child.name
-                      | where: "grand_parent", node.name -%}
+                {%- assign grand_children_list = level3_pages
+                      | where: "parent", child.title
+                      | where: "grand_parent", node1.title -%}
                 {%- if child.child_nav_order == 'desc' or child.child_nav_order == 'reversed' -%}
                   {%- assign grand_children_list = grand_children_list | reverse -%}
                 {%- endif -%}
+
+
+
                 <ul class="nav-list">
                 {%- for grand_child in grand_children_list -%}
                   {%- unless grand_child.nav_exclude -%}
                   <li class="nav-list-item {% if page.url == grand_child.url %} active{% endif %}">
-                    <a href="{{ grand_child.url | relative_url }}" class="nav-list-link{% if page.url == grand_child.url %} active{% endif %}"><span>{{ grand_child.name }}</span> {% if grand_child.subtitle %}- <span style="color: #477089;">{{ grand_child.subtitle }}</span>{% endif %}</a>
+                    <a href="{{ grand_child.url | relative_url }}" class="nav-list-link{% if page.url == grand_child.url %} active fw-bold{% endif %}"><span>{{ grand_child.title }}</span> {% if grand_child.subtitle %}- <span style="color: #477089;">{{ grand_child.subtitle }}</span>{% endif %}</a>
+
+                    <!-- {%- if grand_child.has_children -%}
+                    {%- assign level4 = level3_pages
+                          | where: "parent", child.title
+                          | where: "grand_parent", node.title -%}
+                    {%- if child.child_nav_order == 'desc' or child.child_nav_order == 'reversed' -%}
+                      {%- assign grand_children_list = grand_children_list | reverse -%}
+                    {%- endif -%}
+    
+                    <ul class="nav-list">
+                    {%- for grand_child in grand_children_list -%}
+                      {%- unless grand_child.nav_exclude -%}
+                      <li class="nav-list-item {% if page.url == grand_child.url %} active{% endif %}">
+                        <a href="{{ grand_child.url | relative_url }}" class="nav-list-link{% if page.url == grand_child.url %} active fw-bold{% endif %}"><span>{{ grand_child.title }}</span> {% if grand_child.subtitle %}- <span style="color: #477089;">{{ grand_child.subtitle }}</span>{% endif %}</a>
+                      </li>
+                      {%- endunless -%}
+                    {%- endfor -%}
+                    </ul>
+                  {%- endif -%} -->
+                    
                   </li>
                   {%- endunless -%}
                 {%- endfor -%}
                 </ul>
               {%- endif -%}
+
+
             </li>
             {%- endunless -%}
           {%- endfor -%}
