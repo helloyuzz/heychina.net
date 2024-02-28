@@ -32,7 +32,7 @@
             toolStripMenuItem2 = new ToolStripMenuItem();
             menu_ChooseFile = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
-            toolStripStatusLabel1 = new ToolStripStatusLabel();
+            txtCount = new ToolStripStatusLabel();
             label1 = new Label();
             splitContainer1 = new SplitContainer();
             docTree = new TreeView();
@@ -56,13 +56,13 @@
             label2 = new Label();
             folderBrowserDialog1 = new FolderBrowserDialog();
             contextMenuStrip1 = new ContextMenuStrip(components);
-            menu_ExpandAll = new ToolStripMenuItem();
-            menu_Collapse = new ToolStripMenuItem();
-            toolStripSeparator2 = new ToolStripSeparator();
             menu_CreateFolder = new ToolStripMenuItem();
-            menu_CreateFile = new ToolStripMenuItem();
             toolStripMenuItem4 = new ToolStripMenuItem();
             toolStripSeparator3 = new ToolStripSeparator();
+            menu_CreateFile = new ToolStripMenuItem();
+            toolStripSeparator2 = new ToolStripSeparator();
+            menu_ExpandAll = new ToolStripMenuItem();
+            menu_Collapse = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -118,18 +118,18 @@
             // 
             // statusStrip1
             // 
-            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { txtCount });
             statusStrip1.Location = new Point(0, 769);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(1268, 22);
             statusStrip1.TabIndex = 1;
             statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // txtCount
             // 
-            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(32, 17);
-            toolStripStatusLabel1.Text = "统计";
+            txtCount.Name = "txtCount";
+            txtCount.Size = new Size(32, 17);
+            txtCount.Text = "统计";
             // 
             // label1
             // 
@@ -361,25 +361,6 @@
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(137, 126);
             // 
-            // menu_ExpandAll
-            // 
-            menu_ExpandAll.Name = "menu_ExpandAll";
-            menu_ExpandAll.Size = new Size(180, 22);
-            menu_ExpandAll.Text = "展开";
-            menu_ExpandAll.Click += menu_ExpandAll_Click;
-            // 
-            // menu_Collapse
-            // 
-            menu_Collapse.Name = "menu_Collapse";
-            menu_Collapse.Size = new Size(180, 22);
-            menu_Collapse.Text = "隐藏";
-            menu_Collapse.Click += menu_Collapse_Click;
-            // 
-            // toolStripSeparator2
-            // 
-            toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(177, 6);
-            // 
             // menu_CreateFolder
             // 
             menu_CreateFolder.Name = "menu_CreateFolder";
@@ -387,22 +368,41 @@
             menu_CreateFolder.Text = "新建文件夹";
             menu_CreateFolder.Click += menu_CreateFolder_Click;
             // 
-            // menu_CreateFile
-            // 
-            menu_CreateFile.Name = "menu_CreateFile";
-            menu_CreateFile.Size = new Size(180, 22);
-            menu_CreateFile.Text = "新建文件";
-            // 
             // toolStripMenuItem4
             // 
             toolStripMenuItem4.Name = "toolStripMenuItem4";
-            toolStripMenuItem4.Size = new Size(180, 22);
+            toolStripMenuItem4.Size = new Size(136, 22);
             toolStripMenuItem4.Text = "重命名";
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(177, 6);
+            toolStripSeparator3.Size = new Size(133, 6);
+            // 
+            // menu_CreateFile
+            // 
+            menu_CreateFile.Name = "menu_CreateFile";
+            menu_CreateFile.Size = new Size(136, 22);
+            menu_CreateFile.Text = "新建文件";
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(133, 6);
+            // 
+            // menu_ExpandAll
+            // 
+            menu_ExpandAll.Name = "menu_ExpandAll";
+            menu_ExpandAll.Size = new Size(136, 22);
+            menu_ExpandAll.Text = "展开";
+            menu_ExpandAll.Click += menu_ExpandAll_Click;
+            // 
+            // menu_Collapse
+            // 
+            menu_Collapse.Name = "menu_Collapse";
+            menu_Collapse.Size = new Size(136, 22);
+            menu_Collapse.Text = "隐藏";
+            menu_Collapse.Click += menu_Collapse_Click;
             // 
             // Form_Main
             // 
@@ -443,7 +443,7 @@
         private ToolStripMenuItem toolStripMenuItem1;
         private ToolStripMenuItem toolStripMenuItem2;
         private StatusStrip statusStrip1;
-        private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripStatusLabel txtCount;
         private Label label1;
         private SplitContainer splitContainer1;
         private TreeView docTree;

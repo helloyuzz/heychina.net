@@ -3,6 +3,8 @@ using System.Diagnostics;
 
 namespace HeyEditor {
     public partial class Form_Main : Form {
+        int folderCount = 0;
+        int fileCount = 0;
         public Form_Main() {
             InitializeComponent();
         }
@@ -20,15 +22,22 @@ namespace HeyEditor {
         }
 
         private void Form_Main_Load(object sender, EventArgs e) {
+            refreshTree();
+        }
+
+        private void refreshTree() {
             var filePath = ConfigUtil.ReadSetting("FileFolder");
             if (string.IsNullOrEmpty(filePath)) {
                 filePath = "！未选择文件路径...";
             }
             if (Directory.Exists(filePath) == true) {
+                folderCount = 0;
+                fileCount = 0;
                 menu_ChooseFile.Text = filePath;
 
                 loadTreeNode(null, filePath);
             }
+            txtCount.Text = "统计，文件夹数量：" + folderCount + " | 文件数量：" + fileCount;
         }
 
         private void loadTreeNode(TreeNode node, string filePath) {
@@ -42,6 +51,7 @@ namespace HeyEditor {
                 } else {
                     node.Nodes.Add(treeNode);
                 }
+                folderCount++;
                 loadTreeNode(treeNode, info.FullName);
                 loadTreeFile(treeNode, info.FullName);
             }
@@ -55,6 +65,7 @@ namespace HeyEditor {
                 TreeNode file = new TreeNode(info.Name, 1, 1);
                 file.Name = info.FullName;
                 treeNode.Nodes.Add(file);
+                fileCount++;
             }
         }
 
