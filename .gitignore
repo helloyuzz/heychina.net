@@ -10,3 +10,7 @@ node_modules
 .devcontainer/
 .github/
 .vscode/
+HeyEditor/.vs/
+HeyEditor/bin/
+HeyEditor/debug/
+HeyEditor/obj/
