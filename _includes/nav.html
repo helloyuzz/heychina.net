@@ -1,135 +1,152 @@
 {%- comment -%}
-  Include as: {%- include nav.html pages = pages key = key -%}
-  Depends on: include.pages, include.key, page, site.
-  Results in: HTML for the navigation panel.
-  Includes:
-    sorted_pages.html
-  Overwrites:
-    nav_pages, level1_pages, level2_pages, level3_pages,
-    node, children_list, child, grand_children_list, grand_child.
+Include as: {%- include nav.html pages = pages key = key -%}
+Depends on: include.pages, include.key, page, site.
+Results in: HTML for the navigation panel.
+Includes:
+sorted_pages.html
+Overwrites:
+nav_pages, level1_pages, level2_pages, level3_pages,
+node, children_list, child, grand_children_list, grand_child.
 {%- endcomment -%}
 
 {%- assign nav_pages = include.pages
-    | where_exp: "item", "item.title != nil"
-    | where_exp: "item", "item.nav_exclude != true" -%}
+| where_exp: "item", "item.title != nil"
+| where_exp: "item", "item.nav_exclude != true" -%}
 
 {%- include sorted_pages.html pages = nav_pages -%}
 
 {%- assign level1_pages = sorted_pages | where_exp: "item", "item.level == 1" -%}
-{%- assign level2_pages = sorted_pages | where_exp: "item", "item.level ==2" -%}
+{%- assign level2_pages = sorted_pages | where_exp: "item", "item.level == 2" -%}
 {%- assign level3_pages = sorted_pages | where_exp: "item", "item.level == 3" -%}
 {%- assign level4_pages = sorted_pages | where_exp: "item", "item.level == 4" -%}
 
-
-
 {%- comment -%}
-  The order of sibling pages in `sorted_pages` determines the order of display of
-  links to them in lists of navigation links.
+The order of sibling pages in `sorted_pages` determines the order of display of
+links to them in lists of navigation links.
 
-  Note that Liquid evaluates conditions from right to left (and it does not allow
-  the use of parentheses). Some conditions are not so easy to express clearly...
+Note that Liquid evaluates conditions from right to left (and it does not allow
+the use of parentheses). Some conditions are not so easy to express clearly...
 
-  For example, consider the following condition:
+For example, consider the following condition:
 
-    C: page.collection = = include.key and
-       page.url = = node.url or
-       page.grand_parent = = node.title or
-       page.parent = = node.title and
-       page.grand_parent = = nil
+C: page.collection = = include.key and
+page.url = = node.url or
+page.grand_parent = = node.title or
+page.parent = = node.title and
+page.grand_parent = = nil
 
-  Here, `node` is a first-level page. The last part of the condition
-  -- namely: `page.parent = = node.title and page.grand_parent = = nil` --
-  is evaluated first; it holds if and only if `page` is a child of `node`.
+Here, `node` is a first-level page. The last part of the condition
+-- namely: `page.parent = = node.title and page.grand_parent = = nil` --
+is evaluated first; it holds if and only if `page` is a child of `node`.
 
-  The condition `page.grand_parent = = node.title or ...` holds when
-  `page` is a grandchild of node, OR `...` holds.
+The condition `page.grand_parent = = node.title or ...` holds when
+`page` is a grandchild of node, OR `...` holds.
 
-  The condition `page.url = = node.url or ...` holds when
-  `page` is `node`, OR `...` holds.
+The condition `page.url = = node.url or ...` holds when
+`page` is `node`, OR `...` holds.
 
-  The condition C: `page.collection = = include.key and ...` holds when we are
-  generating the nav links for a collection that includes `page`, AND `...` holds.
+The condition C: `page.collection = = include.key and ...` holds when we are
+generating the nav links for a collection that includes `page`, AND `...` holds.
 {%- endcomment -%}
-
+<style>
+      .txtfile::before{
+            content: url('');
+      }
+</style>
+{%- assign imgPath = "file.png" -%}
+{%- assign imgWidth = "16px" -%}
 <ul class="nav-list">
-{%- for node1 in level1_pages -%}
-    {%- unless node1.nav_exclude -%}
-    {% if node1.title == 'Home' %}
+      {%- for nodeRoot in level1_pages -%}
+      {%- unless nodeRoot.nav_exclude -%}
+      {% if nodeRoot.title == 'Home' %}
       {% continue %}
-    {% endif %}
-      <li class="nav-list-item {% if page.collection == include.key and page.url == node1.url or page.grand_parent == node1.title or page.parent == node1.title and page.grand_parent == nil %} active{% endif %}">
-        {%- if node1.has_children -%}
-        <button class="nav-list-expander btn-reset" aria-label="toggle items in {{ node1.title }} category" aria-pressed="{% if page.collection == include.key and page.url == node1.url or page.grand_parent == node1.title or page.parent == node1.title and page.grand_parent == nil %}true{% else %}false{% endif %}">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
-        </button>
-        {%- endif -%}
-        <a href="{{ node1.url | relative_url }}" class="nav-list-link{% if page.url == node1.url %} active fw-bold{% endif %}">{{ node1.title }}</a>
-        {%- if node1.has_children -%}
-          {%- assign children_list = level2_pages
-                | where: "parent", node1.title -%}
-          {%- if node1.child_nav_order == 'desc' or node1.child_nav_order == 'reversed' -%}
-            {%- assign children_list = children_list | reverse -%}
-          {%- endif -%}
+      {% endif %}
+      <li class="nav-list-item  {% if page.parent contains nodeRoot.title or page.collection == include.key and page.url == nodeRoot.url or page.grand_parent == nodeRoot.title or page.parent == nodeRoot.title and page.grand_parent == nil %} active{% endif %}">
+            {%- if nodeRoot.has_children -%}
+            <button class="nav-list-expander btn-reset" aria-label="toggle items in {{ nodeRoot.title }} category"
+                  aria-pressed="{% if page.collection == include.key and page.url == nodeRoot.url or page.grand_parent == nodeRoot.title or page.parent == nodeRoot.title and page.grand_parent == nil %}true{% else %}false{% endif %}">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <use xlink:href="#svg-arrow-right"></use>
+                  </svg>
+            </button>
+            {%- endif -%}
+            <a href="{{ nodeRoot.url | relative_url }}" class="nav-list-link{% if page.url == nodeRoot.url %} active fw-bold{% endif %}">
+                 <span class="{{ imgPath }}">{{ nodeRoot.title }}</span>
+            </a>
+            {%- if nodeRoot.has_children -%}
+            {%- assign nodeChildren2_list = level2_pages | where: "parent", nodeRoot.title -%}
 
-          <ul class="nav-list">
-          {%- for child in children_list -%}
-            {%- unless child.nav_exclude -%}
-            <li class="nav-list-item {% if page.url == child.url or page.parent == child.title %} active{% endif %}">
-              {%- if child.has_children -%}
-                <button class="nav-list-expander btn-reset" aria-label="toggle items in {{ child.title }} category" aria-pressed="{% if page.url == child.url or page.parent == child.title %}true{% else %}false{% endif %}">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
-                </button>
-              {%- endif -%}
-              <a href="{{ child.url | relative_url }}" class="nav-list-link{% if page.url == child.url %} active fw-bold{% endif %}"><span style="color:#260b93">{{ child.title }}</span> {% if child.subtitle %}- <span>{{ child.subtitle }}</span>{% endif %}</a>
-              
-              {%- if child.has_children -%}
-                {%- assign grand_children_list = level3_pages
-                      | where: "parent", child.title
-                      | where: "grand_parent", node1.title -%}
-                {%- if child.child_nav_order == 'desc' or child.child_nav_order == 'reversed' -%}
-                  {%- assign grand_children_list = grand_children_list | reverse -%}
-                {%- endif -%}
+            <ul class="nav-list">
+                  {%- for nodeChild2 in nodeChildren2_list -%}
+                  {%- unless nodeChild2.nav_exclude -%}
+                  <li class="nav-list-item {% if page.parent contains nodeChild2.title or page.url == nodeChild2.url or page.parent == nodeChild2.title %} active{% endif %}">
+                        {%- if nodeChild2.has_children -%}
+                        {% assign imgPath = "folder.png" %}
+                        <button class="nav-list-expander btn-reset" aria-label="toggle items in {{ nodeChild2.title }} category" aria-pressed="{% if page.url == nodeChild2.url or page.parent == nodeChild2.title %}true{% else %}false{% endif %}">
+                              <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <use xlink:href="#svg-arrow-right"></use>
+                              </svg>
+                        </button>
+                        {%- endif -%}
 
+                        <a href="{{ nodeChild2.url | relative_url }}" class="nav-list-link{% if page.url == nodeChild2.url %} active fw-bold{% endif %}">
+                              <span class="{{ imgPath }}">{{ nodeChild2.title }}</span> 
+                        </a>
 
+                        {%- if nodeChild2.has_children -%}
+                        {%- assign nodeParent = nodeRoot.title | append: "/" | append: nodeChild2.title -%}
+                        {%- assign nodeChildren3_list = level3_pages | where: "parent", nodeParent -%}
 
-                <ul class="nav-list">
-                {%- for grand_child in grand_children_list -%}
-                  {%- unless grand_child.nav_exclude -%}
-                  <li class="nav-list-item {% if page.url == grand_child.url %} active{% endif %}">
-                    <a href="{{ grand_child.url | relative_url }}" class="nav-list-link{% if page.url == grand_child.url %} active fw-bold{% endif %}"><span>{{ grand_child.title }}</span> {% if grand_child.subtitle %}- <span style="color: #477089;">{{ grand_child.subtitle }}</span>{% endif %}</a>
+                        <ul class="nav-list">
+                              {%- for nodeChild3 in nodeChildren3_list -%}
+                              {%- unless nodeChild3.nav_exclude -%}
+                              <li class="nav-list-item {% if page.parent contains nodeChild3.title or page.url == nodeChild3.url or page.parent == nodeChild3.title %} active{% endif %}">
+                                    {%- if nodeChild3.has_children -%}
+                                    {% assign imgPath = "folder.png" %}
+                                    <button class="nav-list-expander btn-reset" aria-label="toggle items in {{ nodeChild3.title }} category" aria-pressed="{% if page.url == nodeChild3.url or page.parent == nodeChild3.title %}true{% else %}false{% endif %}">
+                                          <svg viewBox="0 0 24 24" aria-hidden="true">
+                                                <use xlink:href="#svg-arrow-right"></use>
+                                          </svg>
+                                    </button>
+                                    {%- endif -%}
+                                    <a href="{{ nodeChild3.url | relative_url }}" class="nav-list-link{% if page.url == nodeChild3.url %} active fw-bold{% endif %}">
+                                          <span class="{{ imgPath }}">{{ nodeChild3.title }}</span>
+                                    </a>
+                                    
+                                    {%- if nodeChild3.has_children -%}
+                                    {%- assign nodeParent3 = nodeRoot.title | append: "/" | append: nodeChild2.title | append: "/" | append: nodeChild3.title -%}
+                                    {%- assign level4Nodes = level4_pages | where: "parent", nodeParent3 -%}
 
-                    <!-- {%- if grand_child.has_children -%}
-                    {%- assign level4 = level3_pages
-                          | where: "parent", child.title
-                          | where: "grand_parent", node.title -%}
-                    {%- if child.child_nav_order == 'desc' or child.child_nav_order == 'reversed' -%}
-                      {%- assign grand_children_list = grand_children_list | reverse -%}
-                    {%- endif -%}
-    
-                    <ul class="nav-list">
-                    {%- for grand_child in grand_children_list -%}
-                      {%- unless grand_child.nav_exclude -%}
-                      <li class="nav-list-item {% if page.url == grand_child.url %} active{% endif %}">
-                        <a href="{{ grand_child.url | relative_url }}" class="nav-list-link{% if page.url == grand_child.url %} active fw-bold{% endif %}"><span>{{ grand_child.title }}</span> {% if grand_child.subtitle %}- <span style="color: #477089;">{{ grand_child.subtitle }}</span>{% endif %}</a>
-                      </li>
-                      {%- endunless -%}
-                    {%- endfor -%}
-                    </ul>
-                  {%- endif -%} -->
-                    
+                                    <ul class="nav-list">
+                                          {%- for level4Node in level4Nodes -%}
+                                          {%- if level4Node.has_children -%}
+                                          {% assign imgPath = "txtfolder" %}
+                                          {%- else -%}
+                                          {% assign imgPath = "txtfile" %}
+                                          {%- endif -%}
+                                          <li class="nav-list-item {% if page.url == level4Node.url %} active{% endif %}">
+                                                <a href="{{ level4Node.url | relative_url }}" class="nav-list-link{% if page.url == level4Node.url %} active fw-bold{% endif %}">
+                                                      <span class="{{ imgPath }}">{{ level4Node.title }}</span>
+                                                </a>
+                                          </li>
+                                          {%- unless level4Node.nav_exclude -%}
+                                          {%- endunless -%}
+                                          {%- endfor -%}
+                                    </ul>
+                                    {%- endif -%}
+
+                              </li>
+                              {%- endunless -%}
+                              {%- endfor -%}
+                        </ul>
+                        {%- endif -%}
+
                   </li>
                   {%- endunless -%}
-                {%- endfor -%}
-                </ul>
-              {%- endif -%}
-
-
-            </li>
-            {%- endunless -%}
-          {%- endfor -%}
-          </ul>
-        {%- endif -%}
+                  {%- endfor -%}
+            </ul>
+            {%- endif -%}
       </li>
-    {%- endunless -%}
-{%- endfor -%}
+      {%- endunless -%}
+      {%- endfor -%}
 </ul>
