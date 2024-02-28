@@ -1,23 +1,23 @@
 {%- comment -%}
-  Include as: {%- include components/children_nav.html -%}
-  Depends on: page, site.
-  Results in: HTML for the children-navigation component.
-  Includes:
-    sorted_pages.html
-    toc_heading_custom.html
-  Overwrites:
-    child_pages.
+Include as: {%- include components/children_nav.html -%}
+Depends on: page, site.
+Results in: HTML for the children-navigation component.
+Includes:
+sorted_pages.html
+toc_heading_custom.html
+Overwrites:
+child_pages.
 {%- endcomment -%}
 
 {%- if page.has_children == true and page.has_toc != false -%}
 {%- assign third_level_pages = sorted_pages | where_exp: "item", "item.grand_parent != nil" -%}
-  {%- assign child_pages = site[page.collection] | default: site.html_pages | where: "parent", page.title | where: "grand_parent", page.parent -%}
+{%- assign child_pages = site[page.collection] | default: site.html_pages | where: "parent", page.title | where: "grand_parent", page.parent -%}
 
-  {%- include sorted_pages.html pages = child_pages -%}
+{%- include sorted_pages.html pages = child_pages -%}
 
-  {%- if page.child_nav_order == 'desc' or page.child_nav_order == 'reversed' -%}
-    {%- assign sorted_pages = sorted_pages | reverse -%}
-  {%- endif -%}
+{%- if page.child_nav_order == 'desc' or page.child_nav_order == 'reversed' -%}
+{%- assign sorted_pages = sorted_pages | reverse -%}
+{%- endif -%}
 {%- endif -%}
 <!-- {{ third_level_pages.size() }}
 {% for grand_child in third_level_pages %}
@@ -26,19 +26,21 @@
 <hr>
 {% include toc_heading_custom.html %}
 <ul>
-{% for child in sorted_pages %}
-  <li>
-    <a href="{{ child.url | relative_url }}">{{ child.title }} - {{ child.subtitle }} {{ child.zh_cn }}</a>{% if child.summary %} - {{ child.summary }}{% endif %}
-    {%- assign grand_children_list = third_level_pages | where: "parent", child.title | where: "grand_parent", child.parent -%}
-    <ul class="nav-list">
-      {%- for grand_child in grand_children_list -%}
-      {%- unless grand_child.nav_exclude -%}
-      <li class="nav-list-item {% if page.url == grand_child.url %} active{% endif %}">
-        <a href="{{ grand_child.url | relative_url }}"><span>{{ grand_child.title }}</span> - <span style="color: #477089;">{{ grand_child.subtitle }} {{ grand_child.zh_cn }}</span></a>
+      {% for child in sorted_pages %}
+      <li>
+            <a href="{{ child.url | relative_url }}">{{ child.title }} - {{ child.subtitle }} {{ child.zh_cn }}</a>{% if child.summary %} - {{ child.summary }}{% endif %}
+            {%- assign grand_children_list = third_level_pages | where: "parent", child.title | where: "grand_parent", child.parent -%}
+            <ul class="nav-list">
+                  {%- for grand_child in grand_children_list -%}
+                  {%- unless grand_child.nav_exclude -%}
+                  <li class="nav-list-item {% if page.url == grand_child.url %} active{% endif %}">
+                        <a href="{{ grand_child.url | relative_url }}">
+                              <span>{{ grand_child.title }}</span> - <span style="color: #477089;">{{ grand_child.subtitle }} {{ grand_child.zh_cn }}</span>
+                        </a>
+                  </li>
+                  {%- endunless -%}
+                  {%- endfor -%}
+            </ul>
       </li>
-      {%- endunless -%}
-      {%- endfor -%}
-    </ul>
-  </li>
-{% endfor %}
+      {% endfor %}
 </ul>
