@@ -12,20 +12,24 @@ namespace HeyEditor {
         private void menu_ChooseFile_Click(object sender, EventArgs e) {
             if (Directory.Exists(menu_ChooseFile.Text) == true) {
                 //Process.Start(menu_ChooseFile.Text);
-                return;
+                var dlgResult = MessageBox.Show("是否更换文件夹？", "系统提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dlgResult != DialogResult.Yes) {
+                    return;
+                }
             }
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK) {
                 menu_ChooseFile.Text = folderBrowserDialog1.SelectedPath;
 
                 ConfigUtil.WriteValue("FileFolder", menu_ChooseFile.Text);
+                LoadTreeNodes(sender, e);
             }
         }
 
         private void Form_Main_Load(object sender, EventArgs e) {
-            refreshTree();
+            LoadTreeNodes(sender, e);
         }
 
-        private void refreshTree() {
+        private void LoadTreeNodes(object sender, EventArgs e) {
             var filePath = ConfigUtil.ReadSetting("FileFolder");
             if (string.IsNullOrEmpty(filePath)) {
                 filePath = "！未选择文件路径...";
@@ -34,13 +38,20 @@ namespace HeyEditor {
                 folderCount = 0;
                 fileCount = 0;
                 menu_ChooseFile.Text = filePath;
+                docTree.Nodes.Clear();
 
-                loadTreeNode(null, filePath);
+                LoadTreeNode(null, filePath);
+            }
+            for (int n = 0; n < docTree.Nodes.Count; n++) {
+                docTree.Nodes[n].Expand();
             }
             txtCount.Text = "统计，文件夹数量：" + folderCount + " | 文件数量：" + fileCount;
         }
 
-        private void loadTreeNode(TreeNode node, string filePath) {
+        private void LoadTreeNode(TreeNode node, string filePath) {
+            if (node != null) { 
+            node.Nodes.Clear();
+            }
             var items = Directory.GetDirectories(filePath);
             foreach (var item in items) {
                 DirectoryInfo info = new DirectoryInfo(item);
@@ -52,14 +63,14 @@ namespace HeyEditor {
                     node.Nodes.Add(treeNode);
                 }
                 folderCount++;
-                loadTreeNode(treeNode, info.FullName);
-                loadTreeFile(treeNode, info.FullName);
+                LoadTreeNode(treeNode, info.FullName);
+                LoadTreeFile(treeNode, info.FullName);
             }
         }
 
         // 文件名为TreeNode.name
-        private void loadTreeFile(TreeNode treeNode, string fullName) {
-            var items = Directory.GetFiles(fullName);
+        private void LoadTreeFile(TreeNode treeNode, string directoryName) {
+            var items = Directory.GetFiles(directoryName);
             foreach (var item in items) {
                 var info = new FileInfo(item);
                 TreeNode file = new TreeNode(info.Name, 1, 1);
@@ -70,13 +81,7 @@ namespace HeyEditor {
         }
 
         private void docTree_MouseClick(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Right) {
-                var item = docTree.GetNodeAt(e.Location);
-                if (item != null) {
-                    docTree.SelectedNode = item;
-                    contextMenuStrip1.Show(docTree, PointToClient(e.Location));
-                }
-            }
+
         }
 
         private void menu_ExpandAll_Click(object sender, EventArgs e) {
@@ -147,7 +152,26 @@ namespace HeyEditor {
             if (docTree.SelectedNode == null) { return; }
             var addFolder = new DialogAddFolder(docTree.SelectedNode.Name);
             if (addFolder.ShowDialog() == DialogResult.OK) {
+                docTree.SelectedNode.Expand();
+                LoadTreeNode(docTree.SelectedNode, docTree.SelectedNode.Name);
+                LoadTreeFile(docTree.SelectedNode,docTree.SelectedNode.Name);
+            }
+        }
 
+        private void docTree_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e) {
+            if (e.Button == MouseButtons.Right) {
+                if (e.Node != null) {
+                    docTree.SelectedNode = e.Node;
+                }
+                menu_ShowTitle.Text = e.Node.Name;
+                contextMenuStrip1.Show(PointToClient(MousePosition));
+            }
+        }
+
+        private void menu_OpenFolder_Click(object sender, EventArgs e) {
+            if(docTree.SelectedNode == null) { return; };
+            if (Directory.Exists(docTree.SelectedNode.Name)) { 
+                Process.Start("explorer.exe",docTree.SelectedNode.Name);
             }
         }
     }

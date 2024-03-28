@@ -39,30 +39,36 @@
             imageList1 = new ImageList(components);
             splitContainer2 = new SplitContainer();
             tbx_FileContent = new RichTextBox();
-            txt_FilePath = new Label();
+            txt_FilePath = new LinkLabel();
+            panel2 = new Panel();
+            label2 = new Label();
+            label3 = new Label();
             cbx_Has_children = new CheckBox();
-            btn_Reload = new Button();
-            btn_Save = new Button();
+            label4 = new Label();
             tbx_Has_children = new TextBox();
+            label5 = new Label();
             tbx_Nav_order = new TextBox();
+            txt_Nav_order = new Label();
             tbx_Level = new TextBox();
+            tbx_Layout = new TextBox();
             tbx_Parent = new TextBox();
             tbx_title = new TextBox();
-            tbx_Layout = new TextBox();
-            txt_Nav_order = new Label();
-            label5 = new Label();
-            label4 = new Label();
-            label3 = new Label();
-            label2 = new Label();
+            panel1 = new Panel();
+            label6 = new Label();
+            button3 = new Button();
+            button1 = new Button();
+            button2 = new Button();
+            btn_Reload = new Button();
+            btn_Save = new Button();
             folderBrowserDialog1 = new FolderBrowserDialog();
             contextMenuStrip1 = new ContextMenuStrip(components);
+            menu_ShowTitle = new ToolStripMenuItem();
             menu_CreateFolder = new ToolStripMenuItem();
-            toolStripMenuItem4 = new ToolStripMenuItem();
-            toolStripSeparator3 = new ToolStripSeparator();
-            menu_CreateFile = new ToolStripMenuItem();
             toolStripSeparator2 = new ToolStripSeparator();
-            menu_ExpandAll = new ToolStripMenuItem();
-            menu_Collapse = new ToolStripMenuItem();
+            menu_Refresh = new ToolStripMenuItem();
+            toolStripSeparator3 = new ToolStripSeparator();
+            menu_OpenFolder = new ToolStripMenuItem();
+            toolStripSeparator4 = new ToolStripSeparator();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -73,6 +79,8 @@
             splitContainer2.Panel1.SuspendLayout();
             splitContainer2.Panel2.SuspendLayout();
             splitContainer2.SuspendLayout();
+            panel2.SuspendLayout();
+            panel1.SuspendLayout();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -164,6 +172,7 @@
             // docTree
             // 
             docTree.Dock = DockStyle.Fill;
+            docTree.HideSelection = false;
             docTree.ImageIndex = 0;
             docTree.ImageList = imageList1;
             docTree.Location = new Point(3, 3);
@@ -172,7 +181,7 @@
             docTree.Size = new Size(416, 737);
             docTree.TabIndex = 0;
             docTree.AfterSelect += docTree_AfterSelect;
-            docTree.MouseClick += docTree_MouseClick;
+            docTree.NodeMouseClick += docTree_NodeMouseClick;
             // 
             // imageList1
             // 
@@ -200,20 +209,8 @@
             // splitContainer2.Panel2
             // 
             splitContainer2.Panel2.BackColor = Color.White;
-            splitContainer2.Panel2.Controls.Add(cbx_Has_children);
-            splitContainer2.Panel2.Controls.Add(btn_Reload);
-            splitContainer2.Panel2.Controls.Add(btn_Save);
-            splitContainer2.Panel2.Controls.Add(tbx_Has_children);
-            splitContainer2.Panel2.Controls.Add(tbx_Nav_order);
-            splitContainer2.Panel2.Controls.Add(tbx_Level);
-            splitContainer2.Panel2.Controls.Add(tbx_Parent);
-            splitContainer2.Panel2.Controls.Add(tbx_title);
-            splitContainer2.Panel2.Controls.Add(tbx_Layout);
-            splitContainer2.Panel2.Controls.Add(txt_Nav_order);
-            splitContainer2.Panel2.Controls.Add(label5);
-            splitContainer2.Panel2.Controls.Add(label4);
-            splitContainer2.Panel2.Controls.Add(label3);
-            splitContainer2.Panel2.Controls.Add(label2);
+            splitContainer2.Panel2.Controls.Add(panel2);
+            splitContainer2.Panel2.Controls.Add(panel1);
             splitContainer2.Size = new Size(842, 743);
             splitContainer2.SplitterDistance = 280;
             splitContainer2.TabIndex = 0;
@@ -236,173 +233,254 @@
             txt_FilePath.Name = "txt_FilePath";
             txt_FilePath.Size = new Size(836, 17);
             txt_FilePath.TabIndex = 15;
+            txt_FilePath.TabStop = true;
             txt_FilePath.Text = "d:\\";
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(label2);
+            panel2.Controls.Add(label3);
+            panel2.Controls.Add(cbx_Has_children);
+            panel2.Controls.Add(label4);
+            panel2.Controls.Add(tbx_Has_children);
+            panel2.Controls.Add(label5);
+            panel2.Controls.Add(tbx_Nav_order);
+            panel2.Controls.Add(txt_Nav_order);
+            panel2.Controls.Add(tbx_Level);
+            panel2.Controls.Add(tbx_Layout);
+            panel2.Controls.Add(tbx_Parent);
+            panel2.Controls.Add(tbx_title);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(0, 60);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(842, 399);
+            panel2.TabIndex = 19;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(15, 13);
+            label2.Name = "label2";
+            label2.Size = new Size(43, 17);
+            label2.TabIndex = 0;
+            label2.Text = "layout";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(15, 57);
+            label3.Name = "label3";
+            label3.Size = new Size(29, 17);
+            label3.TabIndex = 1;
+            label3.Text = "title";
             // 
             // cbx_Has_children
             // 
             cbx_Has_children.AutoSize = true;
-            cbx_Has_children.Location = new Point(12, 248);
+            cbx_Has_children.Location = new Point(-4, 231);
             cbx_Has_children.Name = "cbx_Has_children";
             cbx_Has_children.Size = new Size(98, 21);
             cbx_Has_children.TabIndex = 14;
             cbx_Has_children.Text = "has_children";
             cbx_Has_children.UseVisualStyleBackColor = true;
             // 
-            // btn_Reload
+            // label4
             // 
-            btn_Reload.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btn_Reload.Location = new Point(616, 18);
-            btn_Reload.Name = "btn_Reload";
-            btn_Reload.Size = new Size(98, 29);
-            btn_Reload.TabIndex = 13;
-            btn_Reload.Text = "Reload";
-            btn_Reload.UseVisualStyleBackColor = true;
-            // 
-            // btn_Save
-            // 
-            btn_Save.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btn_Save.Location = new Point(732, 18);
-            btn_Save.Name = "btn_Save";
-            btn_Save.Size = new Size(98, 29);
-            btn_Save.TabIndex = 12;
-            btn_Save.Text = "Save";
-            btn_Save.UseVisualStyleBackColor = true;
+            label4.AutoSize = true;
+            label4.Location = new Point(15, 98);
+            label4.Name = "label4";
+            label4.Size = new Size(46, 17);
+            label4.TabIndex = 2;
+            label4.Text = "parent";
             // 
             // tbx_Has_children
             // 
-            tbx_Has_children.Location = new Point(116, 247);
+            tbx_Has_children.Location = new Point(100, 230);
             tbx_Has_children.Name = "tbx_Has_children";
             tbx_Has_children.Size = new Size(200, 23);
             tbx_Has_children.TabIndex = 11;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(15, 148);
+            label5.Name = "label5";
+            label5.Size = new Size(34, 17);
+            label5.TabIndex = 3;
+            label5.Text = "level";
+            // 
             // tbx_Nav_order
             // 
-            tbx_Nav_order.Location = new Point(116, 206);
+            tbx_Nav_order.Location = new Point(100, 189);
             tbx_Nav_order.Name = "tbx_Nav_order";
             tbx_Nav_order.Size = new Size(200, 23);
             tbx_Nav_order.TabIndex = 10;
             // 
+            // txt_Nav_order
+            // 
+            txt_Nav_order.AutoSize = true;
+            txt_Nav_order.Location = new Point(15, 192);
+            txt_Nav_order.Name = "txt_Nav_order";
+            txt_Nav_order.Size = new Size(66, 17);
+            txt_Nav_order.TabIndex = 4;
+            txt_Nav_order.Text = "nav_order";
+            // 
             // tbx_Level
             // 
-            tbx_Level.Location = new Point(116, 162);
+            tbx_Level.Location = new Point(100, 145);
             tbx_Level.Name = "tbx_Level";
             tbx_Level.Size = new Size(200, 23);
             tbx_Level.TabIndex = 9;
             // 
+            // tbx_Layout
+            // 
+            tbx_Layout.Location = new Point(100, 10);
+            tbx_Layout.Name = "tbx_Layout";
+            tbx_Layout.Size = new Size(200, 23);
+            tbx_Layout.TabIndex = 6;
+            // 
             // tbx_Parent
             // 
-            tbx_Parent.Location = new Point(116, 112);
+            tbx_Parent.Location = new Point(100, 95);
             tbx_Parent.Name = "tbx_Parent";
             tbx_Parent.Size = new Size(350, 23);
             tbx_Parent.TabIndex = 8;
             // 
             // tbx_title
             // 
-            tbx_title.Location = new Point(116, 71);
+            tbx_title.Location = new Point(100, 54);
             tbx_title.Name = "tbx_title";
             tbx_title.Size = new Size(323, 23);
             tbx_title.TabIndex = 7;
             // 
-            // tbx_Layout
+            // panel1
             // 
-            tbx_Layout.Location = new Point(116, 27);
-            tbx_Layout.Name = "tbx_Layout";
-            tbx_Layout.Size = new Size(200, 23);
-            tbx_Layout.TabIndex = 6;
+            panel1.Controls.Add(label6);
+            panel1.Controls.Add(button3);
+            panel1.Controls.Add(button1);
+            panel1.Controls.Add(button2);
+            panel1.Controls.Add(btn_Reload);
+            panel1.Controls.Add(btn_Save);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(842, 60);
+            panel1.TabIndex = 18;
             // 
-            // txt_Nav_order
+            // label6
             // 
-            txt_Nav_order.AutoSize = true;
-            txt_Nav_order.Location = new Point(31, 209);
-            txt_Nav_order.Name = "txt_Nav_order";
-            txt_Nav_order.Size = new Size(66, 17);
-            txt_Nav_order.TabIndex = 4;
-            txt_Nav_order.Text = "nav_order";
+            label6.BackColor = SystemColors.ActiveBorder;
+            label6.Dock = DockStyle.Bottom;
+            label6.Location = new Point(0, 59);
+            label6.Name = "label6";
+            label6.Size = new Size(842, 1);
+            label6.TabIndex = 18;
+            label6.Text = "label6";
             // 
-            // label5
+            // button3
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(31, 165);
-            label5.Name = "label5";
-            label5.Size = new Size(34, 17);
-            label5.TabIndex = 3;
-            label5.Text = "level";
+            button3.ImageAlign = ContentAlignment.MiddleLeft;
+            button3.ImageKey = "file.png";
+            button3.ImageList = imageList1;
+            button3.Location = new Point(131, 14);
+            button3.Name = "button3";
+            button3.Size = new Size(139, 32);
+            button3.TabIndex = 17;
+            button3.Text = "Create .md File";
+            button3.UseVisualStyleBackColor = true;
             // 
-            // label4
+            // button1
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(31, 115);
-            label4.Name = "label4";
-            label4.Size = new Size(46, 17);
-            label4.TabIndex = 2;
-            label4.Text = "parent";
+            button1.ImageAlign = ContentAlignment.MiddleLeft;
+            button1.ImageIndex = 0;
+            button1.ImageList = imageList1;
+            button1.Location = new Point(15, 14);
+            button1.Name = "button1";
+            button1.Size = new Size(110, 32);
+            button1.TabIndex = 15;
+            button1.Text = "Create Folder";
+            button1.TextAlign = ContentAlignment.MiddleRight;
+            button1.UseVisualStyleBackColor = true;
             // 
-            // label3
+            // button2
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(31, 74);
-            label3.Name = "label3";
-            label3.Size = new Size(29, 17);
-            label3.TabIndex = 1;
-            label3.Text = "title";
+            button2.Location = new Point(276, 14);
+            button2.Name = "button2";
+            button2.Size = new Size(112, 32);
+            button2.TabIndex = 16;
+            button2.Text = "Rename Folder";
+            button2.UseVisualStyleBackColor = true;
             // 
-            // label2
+            // btn_Reload
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(31, 30);
-            label2.Name = "label2";
-            label2.Size = new Size(43, 17);
-            label2.TabIndex = 0;
-            label2.Text = "layout";
+            btn_Reload.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btn_Reload.Location = new Point(751, 14);
+            btn_Reload.Name = "btn_Reload";
+            btn_Reload.Size = new Size(79, 32);
+            btn_Reload.TabIndex = 13;
+            btn_Reload.Text = "刷新";
+            btn_Reload.UseVisualStyleBackColor = true;
+            // 
+            // btn_Save
+            // 
+            btn_Save.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btn_Save.Location = new Point(403, 14);
+            btn_Save.Name = "btn_Save";
+            btn_Save.Size = new Size(112, 32);
+            btn_Save.TabIndex = 12;
+            btn_Save.Text = "Save File(.md)";
+            btn_Save.UseVisualStyleBackColor = true;
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { menu_CreateFolder, toolStripMenuItem4, toolStripSeparator3, menu_CreateFile, toolStripSeparator2, menu_ExpandAll, menu_Collapse });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { menu_ShowTitle, toolStripSeparator4, menu_CreateFolder, toolStripSeparator2, menu_Refresh, toolStripSeparator3, menu_OpenFolder });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(137, 126);
+            contextMenuStrip1.Size = new Size(146, 110);
+            // 
+            // menu_ShowTitle
+            // 
+            menu_ShowTitle.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            menu_ShowTitle.Name = "menu_ShowTitle";
+            menu_ShowTitle.Size = new Size(180, 22);
+            menu_ShowTitle.Text = "文件夹名称";
             // 
             // menu_CreateFolder
             // 
+            menu_CreateFolder.Image = Properties.Resources.folder;
             menu_CreateFolder.Name = "menu_CreateFolder";
-            menu_CreateFolder.Size = new Size(136, 22);
+            menu_CreateFolder.Size = new Size(180, 22);
             menu_CreateFolder.Text = "新建文件夹";
             menu_CreateFolder.Click += menu_CreateFolder_Click;
-            // 
-            // toolStripMenuItem4
-            // 
-            toolStripMenuItem4.Name = "toolStripMenuItem4";
-            toolStripMenuItem4.Size = new Size(136, 22);
-            toolStripMenuItem4.Text = "重命名";
-            // 
-            // toolStripSeparator3
-            // 
-            toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(133, 6);
-            // 
-            // menu_CreateFile
-            // 
-            menu_CreateFile.Name = "menu_CreateFile";
-            menu_CreateFile.Size = new Size(136, 22);
-            menu_CreateFile.Text = "新建文件";
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(133, 6);
+            toolStripSeparator2.Size = new Size(177, 6);
             // 
-            // menu_ExpandAll
+            // menu_Refresh
             // 
-            menu_ExpandAll.Name = "menu_ExpandAll";
-            menu_ExpandAll.Size = new Size(136, 22);
-            menu_ExpandAll.Text = "展开";
-            menu_ExpandAll.Click += menu_ExpandAll_Click;
+            menu_Refresh.Name = "menu_Refresh";
+            menu_Refresh.Size = new Size(180, 22);
+            menu_Refresh.Text = "刷新(&F)";
+            menu_Refresh.Click += LoadTreeNodes;
             // 
-            // menu_Collapse
+            // toolStripSeparator3
             // 
-            menu_Collapse.Name = "menu_Collapse";
-            menu_Collapse.Size = new Size(136, 22);
-            menu_Collapse.Text = "隐藏";
-            menu_Collapse.Click += menu_Collapse_Click;
+            toolStripSeparator3.Name = "toolStripSeparator3";
+            toolStripSeparator3.Size = new Size(177, 6);
+            // 
+            // menu_OpenFolder
+            // 
+            menu_OpenFolder.Image = Properties.Resources.openfolder;
+            menu_OpenFolder.Name = "menu_OpenFolder";
+            menu_OpenFolder.Size = new Size(145, 22);
+            menu_OpenFolder.Text = "打开文件夹...";
+            menu_OpenFolder.Click += menu_OpenFolder_Click;
+            // 
+            // toolStripSeparator4
+            // 
+            toolStripSeparator4.Name = "toolStripSeparator4";
+            toolStripSeparator4.Size = new Size(177, 6);
             // 
             // Form_Main
             // 
@@ -429,9 +507,11 @@
             splitContainer1.ResumeLayout(false);
             splitContainer2.Panel1.ResumeLayout(false);
             splitContainer2.Panel2.ResumeLayout(false);
-            splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
             splitContainer2.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            panel1.ResumeLayout(false);
             contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
@@ -452,10 +532,6 @@
         private ToolStripSeparator toolStripSeparator1;
         private FolderBrowserDialog folderBrowserDialog1;
         private ImageList imageList1;
-        private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem menu_ExpandAll;
-        private ToolStripSeparator toolStripSeparator2;
-        private ToolStripMenuItem menu_Collapse;
         private SplitContainer splitContainer2;
         private RichTextBox tbx_FileContent;
         private Button btn_Reload;
@@ -471,11 +547,21 @@
         private Label label4;
         private Label label3;
         private Label label2;
-        private ToolStripMenuItem menu_CreateFolder;
-        private ToolStripMenuItem menu_CreateFile;
         private CheckBox cbx_Has_children;
-        private Label txt_FilePath;
-        private ToolStripMenuItem toolStripMenuItem4;
+        private LinkLabel txt_FilePath;
+        private Button button3;
+        private Button button2;
+        private Button button1;
+        private Panel panel1;
+        private Panel panel2;
+        private Label label6;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem menu_CreateFolder;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem menu_Refresh;
         private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem menu_OpenFolder;
+        private ToolStripMenuItem menu_ShowTitle;
+        private ToolStripSeparator toolStripSeparator4;
     }
 }
