@@ -1,4 +1,3 @@
-using System.Configuration;
 using System.Diagnostics;
 
 namespace HeyEditor {
@@ -49,8 +48,8 @@ namespace HeyEditor {
         }
 
         private void LoadTreeNode(TreeNode node, string filePath) {
-            if (node != null) { 
-            node.Nodes.Clear();
+            if (node != null) {
+                node.Nodes.Clear();
             }
             var items = Directory.GetDirectories(filePath);
             foreach (var item in items) {
@@ -118,7 +117,7 @@ namespace HeyEditor {
                 while ((txt = reader.ReadLine()) != null) {
                     tbx_FileContent.AppendText(txt);
                     tbx_FileContent.AppendText("\n");
-                    if ("---".Equals(txt)) {
+                    if ("---".Equals(txt.Trim())) {
                         rowIndex++;
                     }
 
@@ -126,23 +125,25 @@ namespace HeyEditor {
                         continue;
                     }
                     var items = txt.Split(":");
+                    if(items.Length<=1) { continue; }
+                    var value = items[1].Trim();
                     if (txt.StartsWith("layout")) {
-                        tbx_Layout.Text = items[1].Trim();
+                        tbx_Layout.Text = value;
                     }
                     if (txt.StartsWith("title")) {
-                        tbx_title.Text = items[1].Trim();
+                        tbx_title.Text = value;
                     }
                     if (txt.StartsWith("parent")) {
-                        tbx_Parent.Text = items[1].Trim();
+                        tbx_Parent.Text = value;
                     }
                     if (txt.StartsWith("level")) {
-                        tbx_Level.Text = items[1].Trim();
+                        tbx_Level.Text = value;
                     }
                     if (txt.StartsWith("nav_order")) {
-                        tbx_Nav_order.Text = items[1].Trim();
+                        tbx_Nav_order.Text = value;
                     }
                     if (txt.StartsWith("has_children")) {
-                        tbx_Has_children.Text = items[1].Trim();
+                        tbx_Has_children.Text = value;
                     }
                 }
             }
@@ -154,7 +155,7 @@ namespace HeyEditor {
             if (addFolder.ShowDialog() == DialogResult.OK) {
                 docTree.SelectedNode.Expand();
                 LoadTreeNode(docTree.SelectedNode, docTree.SelectedNode.Name);
-                LoadTreeFile(docTree.SelectedNode,docTree.SelectedNode.Name);
+                LoadTreeFile(docTree.SelectedNode, docTree.SelectedNode.Name);
             }
         }
 
@@ -169,9 +170,9 @@ namespace HeyEditor {
         }
 
         private void menu_OpenFolder_Click(object sender, EventArgs e) {
-            if(docTree.SelectedNode == null) { return; };
-            if (Directory.Exists(docTree.SelectedNode.Name)) { 
-                Process.Start("explorer.exe",docTree.SelectedNode.Name);
+            if (docTree.SelectedNode == null) { return; };
+            if (Directory.Exists(docTree.SelectedNode.Name)) {
+                Process.Start("explorer.exe", docTree.SelectedNode.Name);
             }
         }
     }

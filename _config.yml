@@ -17,7 +17,8 @@
 # you will see them accessed via {{ site.title }}, {{ site.github_repo }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title:  中华文明史【文学材料收集整理】 
+title:  heychina.net
+site_name: heychina.net
 description: heychina.net
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://heychina.net" # the base hostname & protocol for your site, e.g. http://example.com

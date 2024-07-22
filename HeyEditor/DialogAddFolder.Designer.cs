@@ -32,7 +32,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(33, 68);
+            label1.Location = new Point(32, 87);
             label1.Name = "label1";
             label1.Size = new Size(68, 17);
             label1.TabIndex = 0;
@@ -40,14 +40,15 @@
             // 
             // tbx_Folder
             // 
-            tbx_Folder.Location = new Point(107, 65);
+            tbx_Folder.BorderStyle = BorderStyle.FixedSingle;
+            tbx_Folder.Location = new Point(106, 84);
             tbx_Folder.Name = "tbx_Folder";
             tbx_Folder.Size = new Size(224, 23);
             tbx_Folder.TabIndex = 1;
             // 
             // btn_Save
             // 
-            btn_Save.Location = new Point(107, 128);
+            btn_Save.Location = new Point(106, 128);
             btn_Save.Name = "btn_Save";
             btn_Save.Size = new Size(75, 23);
             btn_Save.TabIndex = 2;
@@ -58,7 +59,7 @@
             // txt_FolderPath
             // 
             txt_FolderPath.AutoSize = true;
-            txt_FolderPath.Location = new Point(59, 37);
+            txt_FolderPath.Location = new Point(32, 46);
             txt_FolderPath.Name = "txt_FolderPath";
             txt_FolderPath.Size = new Size(24, 17);
             txt_FolderPath.TabIndex = 3;
