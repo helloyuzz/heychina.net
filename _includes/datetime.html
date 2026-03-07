@@ -11,10 +11,10 @@
     class="{{ include.class }}"
   {% endif %}
   data-ts="{{ include.date | date: '%s' }}"
-  data-df="{{ df_dayjs }}"
+  data-df="YYYY年"
   {% if include.tooltip %}
     data-bs-toggle="tooltip" data-bs-placement="bottom"
   {% endif %}
 >
-  {{ include.date | date: df_strftime }}
+  {{ include.date | date: "%Y" }}
 </time>

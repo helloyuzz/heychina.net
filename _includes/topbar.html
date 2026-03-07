@@ -44,15 +44,8 @@
       <i class="fas fa-bars fa-fw"></i>
     </button>
 
-    <div id="topbar-title">
-      {% if page.layout == 'home' %}
-        {{- site.data.locales[include.lang].title | default: site.title -}}
-      {% elsif page.collection == 'tabs' or page.layout == 'page' %}
-        {%- capture tab_key -%}{{ page.url | split: '/' }}{%- endcapture -%}
-        {{- site.data.locales[include.lang].tabs[tab_key] | default: page.title -}}
-      {% else %}
-        {{- site.data.locales[include.lang].layout[page.layout] | default: page.layout | capitalize -}}
-      {% endif %}
+    <div id="topbar-title" class="mt-3">
+       <h2><a href="/">让我们一起<label style="color:blue"><b>发</b></label>现大<label style="color:red"><b>明</b></label></a></h2>
     </div>
 
     <button type="button" id="search-trigger" class="btn btn-link" aria-label="Search">

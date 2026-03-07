@@ -1,0 +1,24 @@
+---
+layout: page
+# The Annotation layout
+---
+
+{% include lang.html %}
+{% assign all_annotations = site.posts | where_exp: 'item', 'item.annotation_on != empty' %}
+<div id="page-category">
+  <h2 class="ps-lg-2">
+    <i class="far fa-folder-open fa-fw text-muted"></i>
+    <a href="">作注</a>
+    <span class="lead text-muted ps-2">{{ all_annotations | size }}</span>
+  </h2>
+
+  <ul class="content ps-0">
+    {% for post in all_annotations %}
+      <li class="d-flex justify-content-between px-md-3">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <span class="dash flex-grow-1"></span>{{ post.annotation_on }}
+        {% include datetime.html date=post.annotation_date class='text-muted small text-nowrap' lang=lang %}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
