@@ -177,24 +177,24 @@ kramdown:
       line_numbers: true
       start_line: 1
 
-collections:
-  tabs:
-    output: true
-    sort_by: order
-  posts:
-    output: true
-    sort_by: date
+# collections:
+#   tabs:
+#     output: true
+#     sort_by: order
+#   posts:
+#     output: true
+#     sort_by: date
 
-annotations:
-  tabs:
-    output: true
-    sort_by: order
-  categories:
-    output: true
-    sort_by: order
-  tags:
-    output: true
-    sort_by: order
+# annotations:
+#   tabs:
+#     output: true
+#     sort_by: order
+  # categories:
+  #   output: true
+  #   sort_by: order
+  # tags:
+  #   output: true
+  #   sort_by: order
 
 defaults:
   - scope:
@@ -207,13 +207,13 @@ defaults:
       # DO NOT modify the following parameter unless you are confident enough
       # to update the code of all other post links in this project.
       permalink: /:collection/:path/:title #posts/:year/:month/:day/:title
-  - scope:
-      path: _drafts
-    values:
-      comments: false
-  - scope:
-      path: ""
-      type: tabs # see `site.collections`
+  # - scope:
+  #     path: _drafts
+  #   values:
+  #     comments: false
+  # - scope:
+  #     path: ""
+  #     type: tabs # see `site.collections`
     values:
       layout: page
       permalink: /:title/
@@ -245,14 +245,15 @@ exclude:
   - "*.rb"
 
 jekyll-archives:
-  enabled: [categories, tags, annotations]
+  enabled: [ annotations]
+  # categories, tags,
   layouts:
-    category: category
-    tag: tag
+    # category: category
+    # tag: tag
     annotation: annotation
   permalinks:
-    tag: /tags/:name/
-    category: /categories/:name/
+    # tag: /tags/:name/
+    # category: /categories/:name/
     annotations: /annotations/:name/
   category:
     slugify: raw
