@@ -22,7 +22,7 @@ layout: default
 
 {% assign toppost = site.posts | where: 'istop', 'true' | sort: 'order' %}
 <!-- 使用 mx-auto 让容器本身水平居中，内部仍保持 text-center 实现内容居中 -->
-<div class="container text-center mx-auto position-relative">
+<div class="position-relative d-flex justify-content-center">
   {% for post in toppost %}
     <!-- 每行同样用 mx-auto 保证在行内水平居中 -->
     <div class="row mx-auto text-center" style="width:200px;height:200px;">
