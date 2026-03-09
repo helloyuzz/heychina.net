@@ -5,8 +5,9 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-> 写在前面
-{: .prompt-tip }
+<div class="alert alert-primary" role="alert">
+ 写在前面
+</div>
 
 历史文化的断层，是非常可怕的事情。华夏民族，从上古时代至今，有 **许多许多许多许多许多许多** 的知识文化积累，百花齐放，百家争鸣。
 
@@ -24,10 +25,13 @@ order: 4
 
 了解真实的华夏历史，了解真实的华夏民族传承。
 
-> 笔者批注
-{: .prompt-tip }
+<div class="alert alert-success" role="alert">
+ 笔者批注
+</div>
+
 
 笔者在收集整理这些历史材料额过程中，首先遵循几个基本原则：
+
 
 ```
 1.忠于原著。
@@ -47,8 +51,10 @@ yudz@wgrib2.com
 
 **记录华夏的历史，就是记录汉民族的历史，就是维护汉民族的复兴。**
 
-> 发现大明
-{: .prompt-tip }
+
+<div class="alert alert-info" role="alert">
+ 发现大明
+</div>
 
 为什么，本站明明是记录华夏民族的文化历史，但标题却叫做 **发现大明** 呢？
 
