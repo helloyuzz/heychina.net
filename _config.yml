@@ -241,7 +241,7 @@ exclude:
   - purgecss.js
   - "*.config.js"
   - "package*.json"
-  - "*.txt"
+  # - "*.txt"
   - "*.rb"
 
 jekyll-archives:
