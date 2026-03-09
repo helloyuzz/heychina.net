@@ -2,8 +2,10 @@
 
 <aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end">
   <header class="profile-wrapper text-center mb-1">
+    <a class="site-title mt-3" href="{{ '/' | relative_url }}">
     <img src="{{- site.avatar -}}" class="rounded-circle border border-info border-2" style="width:200px;height:200px;" alt="avatar" onerror="this.style.display='none'">
-    <a class="site-title mt-3" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    {{ site.title }}
+    </a>
     <p class="site-subtitle mb-0">{{ site.tagline }}</p>
   </header>
 <div class="container">
