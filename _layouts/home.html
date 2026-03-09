@@ -21,25 +21,28 @@ layout: default
 {% endfor %}
 
 {% assign toppost = site.posts | where: 'istop', 'true' | sort: 'order' %}
-<!-- 使用 mx-auto 让容器本身水平居中，内部仍保持 text-center 实现内容居中 -->
-<div class="position-relative d-flex justify-content-center">
+<table class="w-100">
   {% for post in toppost %}
-    <!-- 每行同样用 mx-auto 保证在行内水平居中 -->
-    <div class="row mx-auto text-center" style="width:200px;height:200px;">
-      <div class="col text-center rounded-circle border border-info border-2" style="background-image:url('{{ post.image }}');background-size:cover;background-repeat:no-repeat;background-position:center;">
+  <tr>
+    <td class="d-flex justify-content-center text-center" align="center">
+      <div class="row text-center" style="width:200px;height:200px;">
+        <div class="col w-100 rounded-circle border border-info border-2" style="background-image:url('{{ post.image }}');background-size:cover;background-repeat:no-repeat;background-position:center;">
+        </div>
       </div>
-    </div>
-  <div class="row mt-4">
-    <a href="/" class="mt-2">
-        <div class="position-absolute bottom-0 start-50 translate-middle-x">
-        <div class="d-inline p-2 text-bg-primary rounded">
-        {% include post-summary.html %}
-        </div>
-        </div>
-      </a>
-   </div>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="p-2 text-bg-primary rounded h-auto text-center">
+        <a href="/" class="mt-2 text-white">
+          {% include post-summary.html %}
+        </a>
+      </div>
+    </td>
+  </tr>
   {% endfor %}
-</div>
+</table>
+
 <div class="container">
   {% for post in posts %}
   <div class="row mt-3">
